@@ -7,7 +7,7 @@ export const useDistricts = (props) => {
     const [selectedDistrict, setSelectedDistrict] = useState("");
     const [districts, setDistricts] = useState([]);
     const [states, setStates] = useState([]);
-    const [AppointmentByDistricts, setAppointmentByDistricts] = useState([]);
+    const [appointmentByDistricts, setAppointmentByDistricts] = useState([]);
 
     // to fetch states list and set in state
     const fetchStates = useCallback(() => {
@@ -54,12 +54,14 @@ export const useDistricts = (props) => {
     }, [selectedState]);
 
     const fetchAppointmentByDistricts = useCallback(() => {
+        const currentDate = new Date().toISOString().slice(0, 10);
+        let newDate = currentDate.toString().split("-").reverse().join("-");
         if(!selectedDistrict) {
             return;
         }
         axios({
           "method": "GET",
-          "url": `https://cdn-api.co-vin.in/api/v2/appointment/sessions/public/calendarByDistrict?district_id=${selectedDistrict}&date=18-05-2021`,
+          "url": `https://cdn-api.co-vin.in/api/v2/appointment/sessions/public/calendarByDistrict?district_id=${selectedDistrict}&date=${newDate}`,
         })
         .then((response) => {
             setAppointmentByDistricts(response.data.centers);
@@ -80,7 +82,7 @@ export const useDistricts = (props) => {
         districts, 
         selectedState, 
         selectedDistrict,
-        AppointmentByDistricts,
+        appointmentByDistricts,
         setSelectedState, 
         setSelectedDistrict,
         setAppointmentByDistricts

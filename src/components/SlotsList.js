@@ -1,11 +1,13 @@
 import React from "react";
+import useAppointments from "../hooks/useAppointments";
 
 function SlotsList(props) {
-
+    const selectedDistrict = props.selectedDistrict;
+    const [appointmentByDistricts] = useAppointments([selectedDistrict]);
     const applyIsAvailableFilter = props.applyIsAvailable;
     const applyEighteenPlusFilter = props.applyEighteenPlus;
 
-    let appointments = [...props.appointments];
+    let appointments = [...appointmentByDistricts];
     if (applyIsAvailableFilter) {
         appointments = appointments.reduce((accumulator, appointment) => {
             const sessions = appointment.sessions.filter(
@@ -60,69 +62,79 @@ function SlotsList(props) {
 
     let week = currentWeekDates();
     return (
-            <table className="table table-condensed">
-                <thead className="unbold">
-                    <tr>
-                        <th scope="col">Hopital Name</th>
-                        {week.map((date) => (
-                            <th id={date} key={date} scope="col">
-                                {date.slice(0,5).replace("-","/")}
-                            </th>
-                        ))}
-                    </tr>
-                </thead>
-                <tbody className="table-body">
-                    {appointments.length > 0 ? (
-                        appointments.map((appointment) => (
-                            <tr key={appointment.center_id}>
-                                <td>
-                                    {appointment.name}
-                                    <br />{" "}
-                                    <span className="text-muted">
-                                        {appointment.address}
-                                    </span>
-                                </td>
-                                {week.map((d) => (
-                                    <td>
-                                        {appointment.sessions.map((session) => (
-                                            <>
-                                                {session.date === d && (
-                                                    <span
-                                                        className={`badge badge-pill ${
-                                                            session.available_capacity ===
-                                                            0
-                                                                ? "badge-danger"
-                                                                : "badge-success"
-                                                        }`}
-                                                    >
-                                                        {`${
-                                                            session.available_capacity ===
-                                                            0
-                                                                ? "Booked"
-                                                                : "" +
-                                                                  session.available_capacity
-                                                        }`}
-                                                        <br />
-                                                        <span className="small">
-                                                            {session.vaccine}
-                                                        </span>
-                                                    </span>
-                                                )}
-                                            </>
-                                        ))}
-                                    </td>
-                                ))}
-                            </tr>
-                        ))
-                    ) : (
-                        <tr className="text-center">
-                            <td colSpan="8">
-                                <h5> Slot is not available. </h5>
+        <table className="table table-condensed">
+            <thead className="unbold">
+                <tr>
+                    <th scope="col">Hopital Name</th>
+                    {week.map((date) => (
+                        <th id={date} key={date} scope="col">
+                            {date.slice(0, 5).replace("-", "/")}
+                        </th>
+                    ))}
+                </tr>
+            </thead>
+            <tbody className="table-body">
+                {appointments.length > 0 ? (
+                    appointments.map((appointment) => (
+                        <tr key={appointment.center_id}>
+                            <td>
+                                {appointment.name}
+                                <br />{" "}
+                                <span className="text-muted">
+                                    {appointment.address}
+                                </span>
                             </td>
+                            {week.map((d) => (
+                                <td>
+                                    {appointment.sessions.map((session) => (
+                                        <>
+                                            {session.date === d && (
+                                                <span
+                                                    className={`badge badge-pill ${
+                                                        session.available_capacity ===
+                                                        0
+                                                            ? "badge-danger"
+                                                            : "badge-success"
+                                                    }`}
+                                                >
+                                                    {session.available_capacity ===
+                                                    0 ? (
+                                                        "Booked"
+                                                    ) : (
+                                                        <>
+                                                            {session.available_capacity +
+                                                                " "}
+
+                                                            <small>
+                                                                (
+                                                                {
+                                                                    session.min_age_limit
+                                                                }+
+                                                                )
+                                                            </small>
+                                                        </>
+                                                    )}
+                                                    <br />
+                                                    <span className="small">
+                                                        {session.vaccine}
+                                                    </span>
+                                                </span>
+                                            )}
+                                        </>
+                                    ))}
+                                </td>
+                            ))}
                         </tr>
-                    )}
-                </tbody>
-            </table>
+                    ))
+                ) : (
+                    <tr className="text-center">
+                        <td colSpan="8">
+                            <h5> Slot is not available. </h5>
+                        </td>
+                    </tr>
+                )}
+            </tbody>
+        </table>
     );
 }
 export default SlotsList;

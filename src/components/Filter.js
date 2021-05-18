@@ -1,70 +1,67 @@
-import React, { useState } from "react";
-
-import SlotsList from "./SlotsList";
-import { useDistricts } from "../hooks/useDistricts";
-import useAppointments from "../hooks/useAppointments";
+import React from "react";
 
 const Filter = (props) => {
-    const [
-        states,
-        districts,
-        selectedState,
-        selectedDistrict,
-        setSelectedState,
-        setSelectedDistrict,
-    ] = useDistricts();
-
-    const [appointmentByDistricts] = useAppointments([selectedDistrict]);
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                
-    const [applyIsAvailable, setApplyIsAvailable] = useState(false);
-    const [applyEighteenPlus, setapplyEighteenPlus] = useState(false);
+    const selectedState = props.selectedState;
+    const states = props.states;
+    const selectedDistrict = props.selectedDistrict;
+    const districts = props.districts;
+    const applyEighteenPlus = props.applyEighteenPlus;
+    const applyIsAvailable = props.applyIsAvailable;
 
     function handleApplyIsAvailable(event) {
-        if (!applyIsAvailable) {
-            setApplyIsAvailable(true);
-        } else setApplyIsAvailable(false);
+        if (!props.applyIsAvailable) {
+            props.handleApplyIsAvailable(true);
+        } else props.handleApplyIsAvailable(false);
     }
 
     function handleApplyEighteenPlus(event) {
-        if (!applyEighteenPlus) {
-            setapplyEighteenPlus(true);
-        } else setapplyEighteenPlus(false);
+        if (!props.applyEighteenPlus) {
+            props.handleApplyEighteenPlus(true);
+        } else props.handleApplyIsAvailable(false);
+    }
+
+    function handleSelectedState(event) {
+        const value = event.target.value;
+        props.handleSelectedState(value);
+    }
+
+    function handleSelectedDistrict(event) {
+        const value = event.target.value;
+        props.handleSelectedDistrict(value);
     }
 
     return (
-        <div className="main-container">
+        <>
             <div className="d-flex justify-content-end mt-4">
-                <select
-                    className="dropdown-style"
-                    value={selectedState}
-                    onChange={(e) => {
-                        setSelectedState(e.target.value);
-                    }}
-                >
-                    <option>-- Select State --</option>
-                    {states.map((state) => (
-                        <option value={state.state_id} key={state.state_id}>
-                            {state.state_name}
-                        </option>
-                    ))}
-                </select>
-                <select
-                    className="dropdown-style"
-                    value={selectedDistrict}
-                    onChange={(e) => {
-                        setSelectedDistrict(e.target.value);
-                    }}
-                >
-                    <option>-- Select District --</option>
-                    {districts.map((district) => (
-                        <option
-                            value={district.district_id}
-                            key={district.district_id}
-                        >
-                            {district.district_name}
-                        </option>
-                    ))}
-                </select>
+                <div className="form-group row">
+                    <select
+                        className="form-control form-control-sm col-sm-6"
+                        value={selectedState}
+                        onChange={handleSelectedState}
+                    >
+                        <option>-- Select State --</option>
+                        {states.map((state) => (
+                            <option value={state.state_id} key={state.state_id}>
+                                {state.state_name}
+                            </option>
+                        ))}
+                    </select>
+                    <select
+                        className="form-control form-control-sm col-sm-6"
+                        value={selectedDistrict}
+                        onChange={handleSelectedDistrict}
+                    >
+                        <option>-- Select District --</option>
+                        {districts.map((district) => (
+                            <option
+                                value={district.district_id}
+                                key={district.district_id}
+                            >
+                                {district.district_name}
+                            </option>
+                        ))}
+                    </select>
+                </div>
             </div>
             <hr></hr>
             <div className="d-flex justify-content-end m-2">
@@ -95,16 +92,7 @@ const Filter = (props) => {
                     </span>
                 </a>
             </div>
-            {selectedDistrict!=""? (
-                <SlotsList
-                    applyIsAvailable={applyIsAvailable}
-                    applyEighteenPlus={applyEighteenPlus}
-                    appointments={appointmentByDistricts}
-                />
-            ) : (
-                <h6>Please select State and district</h6>
-            )}
-        </div>
+        </>
     );
 };
 export default Filter;

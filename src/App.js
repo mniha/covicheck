@@ -1,11 +1,11 @@
-import './App.css';
-import Filter from './components/Filter';
+import "./App.css";
+import Container from "./components/Container";
 
 function App() {
-  return (
-    <div className="App">
-      <Filter/>
-    </div>
-  );
+    return (
+        <div className="App">
+            <Container />
+        </div>
+    );
 }
 export default App;

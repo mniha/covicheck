@@ -1,11 +1,10 @@
 import React from "react";
-import useAppointments from "../hooks/useAppointments";
 
 function SlotsList(props) {
-    const selectedDistrict = props.selectedDistrict;
-    const [appointmentByDistricts] = useAppointments([selectedDistrict]);
     const applyIsAvailableFilter = props.applyIsAvailable;
     const applyEighteenPlusFilter = props.applyEighteenPlus;
+    const appointmentByDistricts = props.appointmentByDistricts;
+    const selectedBlockName = props.selectedBlockName;
 
     let appointments = [...appointmentByDistricts];
     if (applyIsAvailableFilter) {
@@ -36,6 +35,12 @@ function SlotsList(props) {
             }
             return accumulator;
         }, []);
+    }
+
+    if (selectedBlockName !== "") {
+        appointments = appointments.filter(
+            (appointment) => appointment.block_name === selectedBlockName
+        );
     }
 
     const currentWeekDates = () => {
@@ -109,8 +114,8 @@ function SlotsList(props) {
                                                                 (
                                                                 {
                                                                     session.min_age_limit
-                                                                }+
-                                                                )
+                                                                }
+                                                                + )
                                                             </small>
                                                         </>
                                                     )}

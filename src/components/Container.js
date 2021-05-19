@@ -1,8 +1,24 @@
 import { useDistricts } from "../hooks/useDistricts";
-import { useState } from "react";
+import { useState, useMemo } from "react";
 
 import Filter from "./Filter";
 import SlotsList from "./SlotsList";
+
+import useAppointments from "../hooks/useAppointments";
+
+const getBlockNames = (appointmentByDistricts) => {
+    let blockNames = appointmentByDistricts.reduce(
+        (accumulator, appointment) => {
+            let blockName = appointment.block_name;
+            if (accumulator.indexOf(blockName) === -1) {
+                accumulator = [...accumulator, blockName];
+            }
+            return accumulator;
+        },
+        []
+    );
+    return blockNames;
+};
 
 function Container() {
     const [
@@ -14,24 +30,34 @@ function Container() {
         setSelectedDistrict,
     ] = useDistricts();
 
+    const [appointmentByDistricts] = useAppointments([selectedDistrict]);
     const [applyIsAvailable, setApplyIsAvailable] = useState(false);
     const [applyEighteenPlus, setapplyEighteenPlus] = useState(false);
+    const [selectedBlockName, setSelectedBlockName] = useState("");
 
-    function handleApplyIsAvailable(value) {
+    const handleApplyIsAvailable = (value) => {
         setApplyIsAvailable(value);
-    }
+    };
 
-    function handleApplyEighteenPlus(value) {
+    const handleApplyEighteenPlus = (value) => {
         setapplyEighteenPlus(value);
-    }
+    };
 
-    function handleSelectedState(value) {
+    const handleSelectedState = (value) => {
         setSelectedState(value);
-    }
+    };
 
-    function handleSelectedDistrict(value) {
+    const handleSelectedDistrict = (value) => {
         setSelectedDistrict(value);
-    }
+    };
+
+    const handleSelectedBlockName = (value) => {
+        setSelectedBlockName(value);
+    };
+
+    const blockNames = useMemo(() => getBlockNames(appointmentByDistricts), [
+        appointmentByDistricts,
+    ]);
 
     return (
         <div className="main-container">
@@ -46,11 +72,16 @@ function Container() {
                 districts={districts}
                 handleSelectedState={handleSelectedState}
                 handleSelectedDistrict={handleSelectedDistrict}
+                blockNames={blockNames}
+                handleSelectedBlockName={handleSelectedBlockName}
+                selectedBlockName={selectedBlockName}
             />
             <SlotsList
                 applyIsAvailable={applyIsAvailable}
                 applyEighteenPlusFilter={applyEighteenPlus}
                 selectedDistrict={selectedDistrict}
+                appointmentByDistricts={appointmentByDistricts}
+                selectedBlockName={selectedBlockName}
             />
         </div>
     );

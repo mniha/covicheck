@@ -7,6 +7,8 @@ const Filter = (props) => {
     const districts = props.districts;
     const applyEighteenPlus = props.applyEighteenPlus;
     const applyIsAvailable = props.applyIsAvailable;
+    const blockNames = props.blockNames;
+    const selectedBlockName = props.selectedBlockName;
 
     function handleApplyIsAvailable(event) {
         if (!props.applyIsAvailable) {
@@ -30,12 +32,17 @@ const Filter = (props) => {
         props.handleSelectedDistrict(value);
     }
 
+    function handleSelectedBlockName(event) {
+        const value = event.target.value;
+        props.handleSelectedBlockName(value);
+    }
+
     return (
         <>
             <div className="d-flex justify-content-end mt-4">
                 <div className="form-group row">
                     <select
-                        className="form-control form-control-sm col-sm-6"
+                        className="form-control form-control-sm col-sm-4"
                         value={selectedState}
                         onChange={handleSelectedState}
                     >
@@ -47,17 +54,32 @@ const Filter = (props) => {
                         ))}
                     </select>
                     <select
-                        className="form-control form-control-sm col-sm-6"
+                        className="form-control form-control-sm col-sm-4"
                         value={selectedDistrict}
                         onChange={handleSelectedDistrict}
                     >
                         <option>-- Select District --</option>
                         {districts.map((district) => (
                             <option
-                                value={district.district_id}
                                 key={district.district_id}
+                                value={district.district_id}
                             >
                                 {district.district_name}
+                            </option>
+                        ))}
+                    </select>
+                    <select
+                        className="form-control form-control-sm col-sm-4"
+                        value={selectedBlockName}
+                        onChange={handleSelectedBlockName}
+                    >
+                        <option>-- Select Block Name --</option>
+                        {blockNames.map((blockName) => (
+                            <option
+                                value={blockName.center_id}
+                                key={blockName.center_id}
+                            >
+                                {blockName}
                             </option>
                         ))}
                     </select>

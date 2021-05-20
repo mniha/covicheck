@@ -10,32 +10,32 @@ const Filter = (props) => {
     const blockNames = props.blockNames;
     const selectedBlockName = props.selectedBlockName;
 
-    function handleApplyIsAvailable(event) {
+    const handleApplyIsAvailable = (event) => {
         if (!props.applyIsAvailable) {
             props.handleApplyIsAvailable(true);
         } else props.handleApplyIsAvailable(false);
-    }
+    };
 
-    function handleApplyEighteenPlus(event) {
+    const handleApplyEighteenPlus = (event) => {
         if (!props.applyEighteenPlus) {
             props.handleApplyEighteenPlus(true);
-        } else props.handleApplyIsAvailable(false);
-    }
+        } else props.handleApplyEighteenPlus(false);
+    };
 
-    function handleSelectedState(event) {
+    const handleSelectedState = (event) => {
         const value = event.target.value;
         props.handleSelectedState(value);
-    }
+    };
 
-    function handleSelectedDistrict(event) {
+    const handleSelectedDistrict = (event) => {
         const value = event.target.value;
         props.handleSelectedDistrict(value);
-    }
+    };
 
-    function handleSelectedBlockName(event) {
+    const handleSelectedBlockName = (event) => {
         const value = event.target.value;
         props.handleSelectedBlockName(value);
-    }
+    };
 
     return (
         <>
@@ -43,6 +43,7 @@ const Filter = (props) => {
                 <div className="form-group row">
                     <select
                         className="form-control form-control-sm col-sm-4"
+                        style={{ width: "15 rem" }}
                         value={selectedState}
                         onChange={handleSelectedState}
                     >
@@ -55,6 +56,7 @@ const Filter = (props) => {
                     </select>
                     <select
                         className="form-control form-control-sm col-sm-4"
+                        style={{ width: "15 rem" }}
                         value={selectedDistrict}
                         onChange={handleSelectedDistrict}
                     >
@@ -70,6 +72,7 @@ const Filter = (props) => {
                     </select>
                     <select
                         className="form-control form-control-sm col-sm-4"
+                        style={{ width: "15 rem" }}
                         value={selectedBlockName}
                         onChange={handleSelectedBlockName}
                     >

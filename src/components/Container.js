@@ -3,7 +3,6 @@ import { useState, useMemo } from "react";
 
 import Filter from "./Filter";
 import SlotsList from "./SlotsList";
-
 import useAppointments from "../hooks/useAppointments";
 
 const getBlockNames = (appointmentByDistricts) => {
@@ -30,17 +29,18 @@ function Container() {
         setSelectedDistrict,
     ] = useDistricts();
 
-    const [appointmentByDistricts] = useAppointments([selectedDistrict]);
+    const [appointmentByDistricts, isLoading] = useAppointments([selectedDistrict]);
     const [applyIsAvailable, setApplyIsAvailable] = useState(false);
-    const [applyEighteenPlus, setapplyEighteenPlus] = useState(false);
+    const [applyEighteenPlus, setApplyEighteenPlus] = useState(false);
     const [selectedBlockName, setSelectedBlockName] = useState("");
+    
 
     const handleApplyIsAvailable = (value) => {
         setApplyIsAvailable(value);
     };
 
     const handleApplyEighteenPlus = (value) => {
-        setapplyEighteenPlus(value);
+        setApplyEighteenPlus(value);
     };
 
     const handleSelectedState = (value) => {
@@ -49,6 +49,7 @@ function Container() {
 
     const handleSelectedDistrict = (value) => {
         setSelectedDistrict(value);
+        setSelectedBlockName("");
     };
 
     const handleSelectedBlockName = (value) => {
@@ -60,30 +61,40 @@ function Container() {
     ]);
 
     return (
-        <div className="main-container">
-            <Filter
-                applyIsAvailable={applyIsAvailable}
-                applyEighteenPlus={applyEighteenPlus}
-                handleApplyIsAvailable={handleApplyIsAvailable}
-                handleApplyEighteenPlus={handleApplyEighteenPlus}
-                selectedState={selectedState}
-                states={states}
-                selectedDistrict={selectedDistrict}
-                districts={districts}
-                handleSelectedState={handleSelectedState}
-                handleSelectedDistrict={handleSelectedDistrict}
-                blockNames={blockNames}
-                handleSelectedBlockName={handleSelectedBlockName}
-                selectedBlockName={selectedBlockName}
-            />
-            <SlotsList
-                applyIsAvailable={applyIsAvailable}
-                applyEighteenPlusFilter={applyEighteenPlus}
-                selectedDistrict={selectedDistrict}
-                appointmentByDistricts={appointmentByDistricts}
-                selectedBlockName={selectedBlockName}
-            />
-        </div>
+        <>
+            { <div className={`${isLoading ? "progress" : "invisible" }`} style={{ height: "5px" }}>
+                <div
+                    class="progress-bar progress-bar-striped progress-bar-animated"
+                    role="progressbar"
+                    style={{ width: "100%" }}>
+                </div>
+            </div> }
+            <div className="main-container">
+                <Filter
+                    applyIsAvailable={applyIsAvailable}
+                    applyEighteenPlus={applyEighteenPlus}
+                    handleApplyIsAvailable={handleApplyIsAvailable}
+                    handleApplyEighteenPlus={handleApplyEighteenPlus}
+                    selectedState={selectedState}
+                    states={states}
+                    selectedDistrict={selectedDistrict}
+                    districts={districts}
+                    handleSelectedState={handleSelectedState}
+                    handleSelectedDistrict={handleSelectedDistrict}
+                    blockNames={blockNames}
+                    handleSelectedBlockName={handleSelectedBlockName}
+                    selectedBlockName={selectedBlockName}
+                />
+                <SlotsList
+                    applyIsAvailable={applyIsAvailable}
+                    applyEighteenPlus={applyEighteenPlus}
+                    selectedDistrict={selectedDistrict}
+                    appointmentByDistricts={appointmentByDistricts}
+                    selectedBlockName={selectedBlockName}
+                    isLoading={isLoading}
+                />
+            </div>
+        </>
     );
 }
 export default Container;

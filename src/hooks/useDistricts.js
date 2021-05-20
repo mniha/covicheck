@@ -6,6 +6,7 @@ export const useDistricts = (props) => {
     const [selectedDistrict, setSelectedDistrict] = useState("");
     const [districts, setDistricts] = useState([]);
     const [states, setStates] = useState([]);
+    
 
     // to fetch states list and set in state
     const fetchStates = useCallback(() => {

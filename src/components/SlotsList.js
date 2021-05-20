@@ -37,7 +37,7 @@ function SlotsList(props) {
         }, []);
     }
 
-    if (selectedBlockName !== "") {
+    if (selectedBlockName) {
         appointments = appointments.filter(
             (appointment) => appointment.block_name === selectedBlockName
         );

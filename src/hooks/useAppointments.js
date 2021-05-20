@@ -3,6 +3,7 @@ import axios from "axios";
 
 export const useAppointments = ([selectedDistrict]) => {
     const [appointmentByDistricts, setAppointmentByDistricts] = useState([]);
+    const [isLoading, setIsLoading] = useState(false);
 
     const fetchAppointmentByDistricts = useCallback(() => {
         const currentDate = new Date().toISOString().slice(0, 10);
@@ -11,13 +12,14 @@ export const useAppointments = ([selectedDistrict]) => {
         if (!selectedDistrict) {
             return;
         }
-
+        setIsLoading(true);
         axios({
             method: "GET",
             url: `https://cdn-api.co-vin.in/api/v2/appointment/sessions/public/calendarByDistrict?district_id=${selectedDistrict}&date=${newDate}`,
         })
             .then((response) => {
                 setAppointmentByDistricts(response.data.centers);
+                setIsLoading(false);
             })
             .catch((error) => {
                 setAppointmentByDistricts([]);
@@ -42,7 +44,7 @@ export const useAppointments = ([selectedDistrict]) => {
         fetchAppointmentByDistricts();
     }, [selectedDistrict]);
 
-    return [appointmentByDistricts];
+    return [appointmentByDistricts, isLoading];
 };
 
 export default useAppointments;

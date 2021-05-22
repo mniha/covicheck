@@ -30,21 +30,25 @@ function Container() {
     ] = useDistricts();
 
     const [appointmentByDistricts, isLoading] = useAppointments([selectedDistrict]);
-    const [applyIsAvailable, setApplyIsAvailable] = useState(false);
+    const [applyIsFortyFivePlus, setapplyIsFortyFivePlus] = useState(false);
     const [applyEighteenPlus, setApplyEighteenPlus] = useState(false);
     const [selectedBlockName, setSelectedBlockName] = useState("");
-    
+    const [applyIsDose1, setApplyIsDose1] = useState(false);
+    const [applyIsDose2, setApplyIsDose2] = useState(false);
 
-    const handleApplyIsAvailable = (value) => {
-        setApplyIsAvailable(value);
+    const handleApplyIsFortyFivePlus = (value) => {
+        setapplyIsFortyFivePlus(value);
+        setApplyEighteenPlus(false);
     };
 
     const handleApplyEighteenPlus = (value) => {
         setApplyEighteenPlus(value);
+        setapplyIsFortyFivePlus(false);
     };
 
     const handleSelectedState = (value) => {
         setSelectedState(value);
+        setSelectedDistrict("");
     };
 
     const handleSelectedDistrict = (value) => {
@@ -60,6 +64,23 @@ function Container() {
         appointmentByDistricts,
     ]);
 
+    const handleApplyIsDose1 = (value) => {
+        setApplyIsDose1(value);
+        setApplyIsDose2(false);
+    };
+
+    const handleApplyIsDose2 = (value) => {
+        setApplyIsDose2(value);
+        setApplyIsDose1(false);
+    };
+
+    const handleClearFilter = (value) => {
+        setApplyIsDose1(value);
+        setApplyIsDose2(value);
+        setApplyEighteenPlus(value);
+        setapplyIsFortyFivePlus(value);
+    }
+
     return (
         <>
             { <div className={`${isLoading ? "progress" : "invisible" }`} style={{ height: "5px" }}>
@@ -71,27 +92,34 @@ function Container() {
             </div> }
             <div className="main-container">
                 <Filter
-                    applyIsAvailable={applyIsAvailable}
+                    applyIsFortyFivePlus={applyIsFortyFivePlus}
                     applyEighteenPlus={applyEighteenPlus}
-                    handleApplyIsAvailable={handleApplyIsAvailable}
-                    handleApplyEighteenPlus={handleApplyEighteenPlus}
                     selectedState={selectedState}
                     states={states}
                     selectedDistrict={selectedDistrict}
                     districts={districts}
+                    selectedBlockName={selectedBlockName}
+                    blockNames={blockNames}
+                    applyIsDose1={applyIsDose1}
+                    applyIsDose2={applyIsDose2}
+                    handleClearFilter = {handleClearFilter}
+                    handleSelectedBlockName={handleSelectedBlockName}
                     handleSelectedState={handleSelectedState}
                     handleSelectedDistrict={handleSelectedDistrict}
-                    blockNames={blockNames}
-                    handleSelectedBlockName={handleSelectedBlockName}
-                    selectedBlockName={selectedBlockName}
+                    handleApplyIsFortyFivePlus={handleApplyIsFortyFivePlus}
+                    handleApplyEighteenPlus={handleApplyEighteenPlus}
+                    handleApplyIsDose1={handleApplyIsDose1}
+                    handleApplyIsDose2={handleApplyIsDose2}
                 />
                 <SlotsList
-                    applyIsAvailable={applyIsAvailable}
+                    applyIsFortyFivePlus={applyIsFortyFivePlus}
                     applyEighteenPlus={applyEighteenPlus}
                     selectedDistrict={selectedDistrict}
                     appointmentByDistricts={appointmentByDistricts}
                     selectedBlockName={selectedBlockName}
                     isLoading={isLoading}
+                    applyIsDose1={applyIsDose1}
+                    applyIsDose2={applyIsDose2}
                 />
             </div>
         </>

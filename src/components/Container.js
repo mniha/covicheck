@@ -1,5 +1,8 @@
 import { useDistricts } from "../hooks/useDistricts";
-import { useState, useMemo } from "react";
+import { useState, useMemo, useEffect } from "react";
+
+import Portal from "../Portal";
+import Loader from "../Loader";
 
 import Filter from "./Filter";
 import SlotsList from "./SlotsList";
@@ -29,12 +32,17 @@ function Container() {
         setSelectedDistrict,
     ] = useDistricts();
 
-    const [appointmentByDistricts, isLoading] = useAppointments([selectedDistrict]);
+    const [appointmentByDistricts, isLoading] = useAppointments([
+        selectedDistrict,
+    ]);
     const [applyIsFortyFivePlus, setapplyIsFortyFivePlus] = useState(false);
-    const [applyEighteenPlus, setApplyEighteenPlus] = useState(false);
+    const [applyIsEighteenPlus, setApplyEighteenPlus] = useState(false);
     const [selectedBlockName, setSelectedBlockName] = useState("");
     const [applyIsDose1, setApplyIsDose1] = useState(false);
     const [applyIsDose2, setApplyIsDose2] = useState(false);
+    const [applyIsCovishield, setApplyIsCovishield] = useState(false);
+    const [applyIsCovaxin, setApplyIsCovaxin] = useState(false);
+    const [applyIsSputnik, setApplyIsSputnik] = useState(false);
 
     const handleApplyIsFortyFivePlus = (value) => {
         setapplyIsFortyFivePlus(value);
@@ -79,21 +87,41 @@ function Container() {
         setApplyIsDose2(value);
         setApplyEighteenPlus(value);
         setapplyIsFortyFivePlus(value);
-    }
+        setApplyIsCovishield(value);
+        setApplyIsSputnik(value);
+        setApplyIsCovaxin(value);
+    };
+
+    const handleApplyIsCovishield = (value) => {
+        setApplyIsCovishield(value);
+        setApplyIsSputnik(false);
+        setApplyIsCovaxin(false);
+    };
+
+    const handleApplyIsCovaxin = (value) => {
+        setApplyIsCovaxin(value);
+        setApplyIsCovishield(false);
+        setApplyIsSputnik(false);
+    };
+
+    const handleApplyIsSputnik = (value) => {
+        setApplyIsSputnik(value);
+        setApplyIsCovishield(false);
+        setApplyIsCovaxin(false);
+    };
 
     return (
         <>
-            { <div className={`${isLoading ? "progress" : "invisible" }`} style={{ height: "5px" }}>
-                <div
-                    class="progress-bar progress-bar-striped progress-bar-animated"
-                    role="progressbar"
-                    style={{ width: "100%" }}>
-                </div>
-            </div> }
+            <div>
+                <Portal>
+                    <Loader isLoading={isLoading} />
+                </Portal>
+            </div>
+
             <div className="main-container">
                 <Filter
                     applyIsFortyFivePlus={applyIsFortyFivePlus}
-                    applyEighteenPlus={applyEighteenPlus}
+                    applyIsEighteenPlus={applyIsEighteenPlus}
                     selectedState={selectedState}
                     states={states}
                     selectedDistrict={selectedDistrict}
@@ -102,7 +130,10 @@ function Container() {
                     blockNames={blockNames}
                     applyIsDose1={applyIsDose1}
                     applyIsDose2={applyIsDose2}
-                    handleClearFilter = {handleClearFilter}
+                    applyIsCovishield={applyIsCovishield}
+                    applyIsCovaxin={applyIsCovaxin}
+                    applyIsSputnik={applyIsSputnik}
+                    handleClearFilter={handleClearFilter}
                     handleSelectedBlockName={handleSelectedBlockName}
                     handleSelectedState={handleSelectedState}
                     handleSelectedDistrict={handleSelectedDistrict}
@@ -110,11 +141,18 @@ function Container() {
                     handleApplyEighteenPlus={handleApplyEighteenPlus}
                     handleApplyIsDose1={handleApplyIsDose1}
                     handleApplyIsDose2={handleApplyIsDose2}
+                    handleApplyIsSputnik={handleApplyIsSputnik}
+                    handleApplyIsCovaxin={handleApplyIsCovaxin}
+                    handleApplyIsCovishield={handleApplyIsCovishield}
+
                 />
                 <SlotsList
                     applyIsFortyFivePlus={applyIsFortyFivePlus}
-                    applyEighteenPlus={applyEighteenPlus}
+                    applyIsEighteenPlus={applyIsEighteenPlus}
                     selectedDistrict={selectedDistrict}
+                    applyIsCovishield={applyIsCovishield}
+                    applyIsCovaxin={applyIsCovaxin}
+                    applyIsSputnik={applyIsSputnik}
                     appointmentByDistricts={appointmentByDistricts}
                     selectedBlockName={selectedBlockName}
                     isLoading={isLoading}

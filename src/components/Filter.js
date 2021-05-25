@@ -5,41 +5,23 @@ const Filter = (props) => {
     const states = props.states;
     const selectedDistrict = props.selectedDistrict;
     const districts = props.districts;
-    const applyEighteenPlus = props.applyEighteenPlus;
+    const applyIsEighteenPlus = props.applyIsEighteenPlus;
     const applyIsFortyFivePlus = props.applyIsFortyFivePlus;
     const blockNames = props.blockNames;
     const selectedBlockName = props.selectedBlockName;
     const applyIsDose1 = props.applyIsDose1;
     const applyIsDose2 = props.applyIsDose2;
+    const applyIsCovishield = props.applyIsCovishield;
+    const applyIsSputnik = props.applyIsSputnik;
+    const applyIsCovaxin = props.applyIsCovaxin;
     const enableClearFilter =
-        applyEighteenPlus ||
+        applyIsEighteenPlus ||
         applyIsFortyFivePlus ||
         applyIsDose1 ||
-        applyIsDose2;
-
-    const handleApplyIsFortyFivePlus = (event) => {
-        if (!props.applyIsFortyFivePlus) {
-            props.handleApplyIsFortyFivePlus(true);
-        } else props.handleApplyIsFortyFivePlus(false);
-    };
-
-    const handleApplyEighteenPlus = (event) => {
-        if (!props.applyEighteenPlus) {
-            props.handleApplyEighteenPlus(true);
-        } else props.handleApplyEighteenPlus(false);
-    };
-
-    const handleApplyIsDose1 = (event) => {
-        if (!props.applyIsDose1) {
-            props.handleApplyIsDose1(true);
-        } else props.handleApplyIsDose1(false);
-    };
-
-    const handleApplyIsDose2 = (event) => {
-        if (!props.applyIsDose2) {
-            props.handleApplyIsDose2(true);
-        } else props.handleApplyIsDose2(false);
-    };
+        applyIsDose2 ||
+        applyIsCovishield ||
+        applyIsCovaxin ||
+        applyIsSputnik;
 
     const handleSelectedState = (event) => {
         const value = event.target.value;
@@ -56,9 +38,51 @@ const Filter = (props) => {
         props.handleSelectedBlockName(value);
     };
 
+    const handleApplyIsFortyFivePlus = (event) => {
+        if (!props.applyIsFortyFivePlus) {
+            props.handleApplyIsFortyFivePlus(true);
+        } else props.handleApplyIsFortyFivePlus(false);
+    };
+
+    const handleApplyEighteenPlus = (event) => {
+        if (!props.applyIsEighteenPlus) {
+            props.handleApplyEighteenPlus(true);
+        } else props.handleApplyEighteenPlus(false);
+    };
+
+    const handleApplyIsDose1 = (event) => {
+        if (!props.applyIsDose1) {
+            props.handleApplyIsDose1(true);
+        } else props.handleApplyIsDose1(false);
+    };
+
+    const handleApplyIsDose2 = (event) => {
+        if (!props.applyIsDose2) {
+            props.handleApplyIsDose2(true);
+        } else props.handleApplyIsDose2(false);
+    };
+
+    const handleApplyIsCovishield = (event) => {
+        if (!props.applyIsCovishield) {
+            props.handleApplyIsCovishield(true);
+        } else props.handleApplyIsCovishield(false);
+    };
+
+    const handleApplyIsCovaxin = (event) => {
+        if (!props.applyIsCovaxin) {
+            props.handleApplyIsCovaxin(true);
+        } else props.handleApplyIsCovaxin(false);
+    };
+
+    const handleApplyIsSputnik = (event) => {
+        if (!props.applyIsSputnik) {
+            props.handleApplyIsSputnik(true);
+        } else props.handleApplyIsSputnik(false);
+    };
+
     const handleClearFilter = (event) => {
         props.handleClearFilter(false);
-    }
+    };
 
     return (
         <>
@@ -160,11 +184,11 @@ const Filter = (props) => {
                     <a href="#">
                         <span
                             className={`badge p-1 m-1 ${
-                                applyEighteenPlus
+                                applyIsEighteenPlus
                                     ? "badge-primary"
                                     : "badge-secondary text-light"
                             }`}
-                            value={applyEighteenPlus}
+                            value={applyIsEighteenPlus}
                             onClick={handleApplyEighteenPlus}
                         >
                             18+
@@ -181,6 +205,52 @@ const Filter = (props) => {
                             onClick={handleApplyIsFortyFivePlus}
                         >
                             45+
+                        </span>
+                    </a>
+                </div>
+                <div
+                    className=" form-group form-group border-right border-secondary"
+                    role="group"
+                ></div>
+                <div className=" form-group ml-1 form-group" role="group">
+                    <small>Vaccine</small>
+                    <a href="#">
+                        <span
+                            className={`badge p-1 m-1 ${
+                                applyIsCovishield
+                                    ? "badge-primary"
+                                    : "badge-secondary text-light"
+                            }`}
+                            value={applyIsCovishield}
+                            onClick={handleApplyIsCovishield}
+                        >
+                            Covishield
+                        </span>
+                    </a>
+                    <a href="#">
+                        <span
+                            className={`badge p-1 m-1 ${
+                                applyIsCovaxin
+                                    ? "badge-primary"
+                                    : "badge-secondary text-light"
+                            }`}
+                            value={applyIsCovaxin}
+                            onClick={handleApplyIsCovaxin}
+                        >
+                            Covaxin
+                        </span>
+                    </a>
+                    <a href="#">
+                        <span
+                            className={`badge p-1 m-1 ${
+                                applyIsSputnik
+                                    ? "badge-primary"
+                                    : "badge-secondary text-light"
+                            }`}
+                            value={applyIsSputnik}
+                            onClick={handleApplyIsSputnik}
+                        >
+                            Sputnik
                         </span>
                     </a>
                 </div>

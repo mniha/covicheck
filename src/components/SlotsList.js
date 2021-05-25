@@ -2,13 +2,16 @@ import React from "react";
 
 function SlotsList(props) {
     const applyIsFortyFivePlus = props.applyIsFortyFivePlus;
-    const applyEighteenPlus = props.applyEighteenPlus;
+    const applyIsEighteenPlus = props.applyIsEighteenPlus;
     const appointmentByDistricts = props.appointmentByDistricts;
     const selectedBlockName = props.selectedBlockName;
     const applyIsDose1 = props.applyIsDose1;
     const applyIsDose2 = props.applyIsDose2;
     const selectedDistrict = props.selectedDistrict;
     const isLoading = props.isLoading;
+    const applyIsCovishield = props.applyIsCovishield;
+    const applyIsSputnik = props.applyIsSputnik;
+    const applyIsCovaxin = props.applyIsCovaxin;
 
     let appointments = [...appointmentByDistricts];
     if (applyIsDose1) {
@@ -41,7 +44,7 @@ function SlotsList(props) {
         }, []);
     }
 
-    if (applyEighteenPlus) {
+    if (applyIsEighteenPlus) {
         appointments = appointments.reduce((accumulator, appointment) => {
             const sessions = appointment.sessions.filter(
                 (session) => session.min_age_limit === 18
@@ -60,6 +63,51 @@ function SlotsList(props) {
         appointments = appointments.reduce((accumulator, appointment) => {
             const sessions = appointment.sessions.filter(
                 (session) => session.min_age_limit === 45
+            );
+            if (sessions.length !== 0) {
+                accumulator = [
+                    ...accumulator,
+                    { ...appointment, sessions: sessions },
+                ];
+            }
+            return accumulator;
+        }, []);
+    }
+
+    if (applyIsCovishield) {
+        appointments = appointments.reduce((accumulator, appointment) => {
+            const sessions = appointment.sessions.filter(
+                (session) => session.vaccine === "COVISHIELD"
+            );
+            if (sessions.length !== 0) {
+                accumulator = [
+                    ...accumulator,
+                    { ...appointment, sessions: sessions },
+                ];
+            }
+            return accumulator;
+        }, []);
+    }
+
+    if (applyIsCovaxin) {
+        appointments = appointments.reduce((accumulator, appointment) => {
+            const sessions = appointment.sessions.filter(
+                (session) => session.vaccine === "COVAXIN"
+            );
+            if (sessions.length !== 0) {
+                accumulator = [
+                    ...accumulator,
+                    { ...appointment, sessions: sessions },
+                ];
+            }
+            return accumulator;
+        }, []);
+    }
+
+    if (applyIsSputnik) {
+        appointments = appointments.reduce((accumulator, appointment) => {
+            const sessions = appointment.sessions.filter(
+                (session) => session.vaccine === "SPUTNIK"
             );
             if (sessions.length !== 0) {
                 accumulator = [

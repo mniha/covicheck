@@ -161,7 +161,7 @@ function SlotsList(props) {
                 </tr>
             </thead>
             <tbody className="table-body">
-                { selectedDistrict ? ( 
+                {selectedDistrict ? (
                     appointments.length > 0 ? (
                         appointments.map((appointment) => (
                             <tr key={appointment.center_id}>
@@ -190,8 +190,12 @@ function SlotsList(props) {
                                                             "Booked"
                                                         ) : (
                                                             <>
-                                                                {applyIsDose1 ? session.available_capacity_dose1 : session.available_capacity_dose2 +
-                                                                    " "}
+                                                                {applyIsDose1
+                                                                    ? session.available_capacity_dose1
+                                                                    : applyIsDose2
+                                                                    ? session.available_capacity_dose2
+                                                                    : session.available_capacity +
+                                                                      " "}
 
                                                                 <small>
                                                                     (
@@ -214,19 +218,22 @@ function SlotsList(props) {
                                 ))}
                             </tr>
                         ))
-                    ) : ( 
+                    ) : (
                         <tr className="text-center">
                             <td colSpan="8">
-                                    {!isLoading ?
-                                    <h5> Slot is not available.</h5> : ""}
+                                {!isLoading ? (
+                                    <h5> Slot is not available.</h5>
+                                ) : (
+                                    ""
+                                )}
                             </td>
                         </tr>
-                    )): 
-                        <tr className="text-center">
-                            <td colSpan="8">
-                            </td>
-                        </tr>
-                }
+                    )
+                ) : (
+                    <tr className="text-center">
+                        <td colSpan="8"></td>
+                    </tr>
+                )}
             </tbody>
         </table>
     );

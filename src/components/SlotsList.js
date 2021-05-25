@@ -17,7 +17,7 @@ function SlotsList(props) {
     if (applyIsDose1) {
         appointments = appointments.reduce((accumulator, appointment) => {
             const sessions = appointment.sessions.filter(
-                (session) => session.available_capacity > 0
+                (session) => session.available_capacity_dose1 > 0
             );
             if (sessions.length !== 0) {
                 accumulator = [
@@ -190,7 +190,7 @@ function SlotsList(props) {
                                                             "Booked"
                                                         ) : (
                                                             <>
-                                                                {session.available_capacity +
+                                                                {applyIsDose1 ? session.available_capacity_dose1 : session.available_capacity_dose2 +
                                                                     " "}
 
                                                                 <small>

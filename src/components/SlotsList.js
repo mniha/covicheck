@@ -190,12 +190,12 @@ function SlotsList(props) {
                                                             "Booked"
                                                         ) : (
                                                             <>
-                                                                {applyIsDose1
+                                                                {((applyIsDose1 || applyIsDose1) ?
+                                                                    (applyIsDose1
                                                                     ? session.available_capacity_dose1
-                                                                    : applyIsDose2
-                                                                    ? session.available_capacity_dose2
+                                                                    : session.available_capacity_dose2)
                                                                     : session.available_capacity +
-                                                                      " "}
+                                                                      " ")}
 
                                                                 <small>
                                                                     (
